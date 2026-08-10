@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mastery — Peso en Pauta</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- ══════════════════════════════════════
+     META PIXEL — solo instalado, SIN eventos en código.
+     Todos los eventos (PageView, ViewContent, Subscribe, Lead)
+     se configuran manualmente en Events Manager.
+══════════════════════════════════════ -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1903630753673137');
+// Sin eventos disparados desde código — se configuran manualmente en Events Manager
+</script>
+<!-- FIN META PIXEL -->
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --dark:   #1a0f22;
+  --orchid: #7A2394;
+  --orchid-hi: #9b3eb8;
+  --amber:  #FFA51F;
+  --tomato: #FF6347;
+  --white:  #ffffff;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', -apple-system, Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 10%, rgba(122,35,148,0.16) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(255,165,31,0.10) 0%, transparent 50%),
+    linear-gradient(165deg, #ffffff 0%, #faf5fc 45%, #f3e3f8 100%);
+  color: var(--dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── LOGO ── */
+.logo {
+  display: inline-flex; align-items: baseline;
+  font-family: 'Nunito', 'Arial Black', sans-serif;
+  font-weight: 800; font-size: 22px; letter-spacing: -0.045em;
+  color: var(--dark); text-decoration: none; line-height: 1;
+}
+.logo-dot {
+  display: inline-block; width: 5px; height: 5px; border-radius: 50%;
+  background: linear-gradient(160deg, var(--orchid-hi) 0%, var(--tomato) 50%, var(--amber) 100%);
+  margin-left: 1px; margin-bottom: 2px; flex-shrink: 0;
+  box-shadow: 0 0 5px rgba(122,35,148,0.4), 0 0 10px rgba(255,99,71,0.2);
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.25rem 3rem;
+  background: rgba(255,255,255,0.82);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 0.5px solid rgba(122,35,148,0.15);
+}
+.nav-cta {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.07em;
+  text-transform: uppercase; color: white; text-decoration: none;
+  background: linear-gradient(135deg, #8a2aaa, #4e1162);
+  padding: 8px 22px; border-radius: 20px; transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(122,35,148,0.25); white-space: nowrap;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(122,35,148,0.4); }
+
+/* ── MAIN SPLIT ── */
+main {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 8.5rem 3rem 4rem;
+}
+.split {
+  max-width: 1240px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 4rem; align-items: center;
+}
+
+/* ── TYPE ── */
+.eyebrow {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--orchid); margin-bottom: 1.25rem;
+}
+.accent-line { width: 28px; height: 3px; background: var(--orchid); border-radius: 2px; margin-bottom: 2rem; }
+.headline-split {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.9rem, 3.2vw, 3.2rem); font-weight: 800;
+  line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 2rem;
+  color: var(--dark);
+}
+.grad-text {
+  background: linear-gradient(135deg, var(--orchid-hi), var(--tomato) 60%, var(--amber));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+
+/* ── POEMA ── */
+.subtext {
+  font-size: 1rem; font-weight: 300; line-height: 1.75; max-width: 560px;
+  color: rgba(26,15,34,0.65); margin-bottom: 1.25rem;
+  text-align: justify; text-justify: inter-word;
+}
+
+/* ── CHECK LIST ── */
+.check-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; font-size: 0.87rem; line-height: 1.5; color: rgba(26,15,34,0.75); }
+.check-icon {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  border: 1.5px solid rgba(122,35,148,0.35); color: var(--orchid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; background: rgba(122,35,148,0.07);
+}
+.checks { margin-bottom: 1.5rem; }
+
+.scarcity {
+  display: inline-block; margin-top: 0.5rem;
+  font-size: 0.78rem; color: rgba(26,15,34,0.5); letter-spacing: 0.02em;
+}
+.scarcity strong { color: var(--dark); font-weight: 600; }
+
+/* ── CALENDAR CARD ── */
+.calendar-col { position: relative; }
+.calendar-card {
+  position: relative; border-radius: 20px; padding: 1.5rem;
+  background: rgba(255,255,255,0.65); overflow: hidden;
+  box-shadow: 0 20px 60px rgba(122,35,148,0.12);
+}
+.calendar-card::before {
+  content: ''; position: absolute; inset: 0; border-radius: 20px; padding: 1px;
+  background: linear-gradient(140deg, rgba(122,35,148,0.55) 0%, rgba(255,165,31,0.3) 45%, rgba(122,35,148,0.05) 75%, transparent 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+}
+.calendar-head { padding: 0.25rem 0.5rem 1rem; }
+.calendar-title { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.3rem; color: var(--dark); }
+.calendar-sub { font-size: 0.78rem; font-weight: 300; color: rgba(26,15,34,0.5); }
+.calendar-embed {
+  background: #ffffff; border-radius: 14px; overflow: hidden; min-height: 560px;
+  position: relative; border: 1px solid rgba(122,35,148,0.1);
+}
+.calendar-embed iframe { display: block; width: 100%; min-height: 560px; border: none; }
+.calendar-overlay {
+  position: absolute; inset: 0; z-index: 5; cursor: pointer;
+  background: rgba(122,35,148,0.12); backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center; text-align: center; padding: 2rem;
+  transition: opacity 0.3s ease;
+}
+.calendar-overlay span {
+  color: #fff; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #8a2aaa, #4e1162); padding: 10px 20px; border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(122,35,148,0.35);
+}
+.calendar-fine {
+  text-align: center; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(26,15,34,0.35); margin-top: 1rem;
+}
+
+/* ── REVEAL-IN ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+.hero-el { opacity:0; animation: fadeUp 0.8s ease forwards; }
+.hero-el:nth-child(1){animation-delay:0.15s}
+.hero-el:nth-child(2){animation-delay:0.28s}
+.hero-el:nth-child(3){animation-delay:0.4s}
+.calendar-col { opacity:0; animation: fadeUp 0.9s ease forwards; animation-delay: 0.5s; }
+
+/* ── FOOTER ── */
+.footer { background: #ffffff; padding: 2.25rem 3rem; border-top: 0.5px solid rgba(122,35,148,0.12); }
+.footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.75rem; color: rgba(26,15,34,0.4); text-decoration: none; letter-spacing: 0.05em; }
+.footer-links a:hover { color: rgba(26,15,34,0.7); }
+.footer-text { max-width: 800px; margin: 0 auto; font-size: 0.7rem; line-height: 1.8; color: rgba(26,15,34,0.32); text-align: center; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 980px) {
+  .split { grid-template-columns: 1fr; gap: 2.5rem; }
+  main { padding: 7rem 1.5rem 3rem; }
+}
+@media (max-width: 480px) {
+  .nav { padding: 1rem 1.25rem; }
+  .nav-cta { font-size: 11px; padding: 7px 14px; }
+  .calendar-card { padding: 1rem; }
+  .calendar-embed, .calendar-embed iframe { min-height: 620px; }
+  .footer { padding: 2rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     DETECTOR DE NAVEGADOR INTERNO (Facebook/Instagram)
+══════════════════════════════════════ -->
+<script>
+(function () {
+  var ua = navigator.userAgent || navigator.vendor || window.opera || '';
+  var esNavegadorInterno = /FBAN|FBAV|Instagram|FB_IAB|FBIOS|Line\//i.test(ua);
+  if (!esNavegadorInterno) return;
+
+  var esAndroid = /Android/i.test(ua);
+  var yaIntento = /forcedBrowser=1/.test(window.location.search);
+
+  if (esAndroid && !yaIntento) {
+    var destino = window.location.href + (window.location.href.indexOf('?') > -1 ? '&' : '?') + 'forcedBrowser=1';
+    var intentUrl = 'intent://' + destino.replace(/^https?:\/\//, '') + '#Intent;scheme=https;package=com.android.chrome;end';
+    window.location.href = intentUrl;
+    return;
+  }
+
+  var banner = document.createElement('div');
+  banner.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:linear-gradient(135deg,#8a2aaa,#4e1162);color:#fff;font-family:Poppins,Arial,sans-serif;font-size:12.5px;padding:10px 16px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.3);';
+  banner.innerHTML = '⚠️ Para agendar sin problemas, toca <strong>⋮ / ⋯</strong> arriba y elige <strong>"Abrir en el navegador"</strong>&nbsp;&nbsp;<span style="cursor:pointer;opacity:0.85;" onclick="this.parentElement.remove(); document.querySelector(\'.nav\').style.top=\'0\';">✕</span>';
+  document.body.insertBefore(banner, document.body.firstChild);
+
+  var nav = document.querySelector('.nav');
+  if (nav) nav.style.top = '40px';
+})();
+</script>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="logo" href="#"><span>Mastery</span><span class="logo-dot"></span></a>
+  <a href="#calendario" class="nav-cta">Agenda tu diagnóstico →</a>
+</nav>
+
+<!-- SECCIÓN ÚNICA: HERO + CALENDARIO -->
+<main>
+  <div class="split">
+
+    <!-- COLUMNA IZQUIERDA: COPY -->
+    <div class="content-col">
+      <div class="eyebrow hero-el">Peso en pauta</div>
+      <div class="accent-line hero-el"></div>
+      <h1 class="headline-split hero-el">Los emprendedores serios que escalan no <span class="grad-text">invierten en anuncios con su capital</span></h1>
+
+      <p class="subtext hero-el" style="font-weight:500; color:rgba(26,15,34,0.8);">Vas a dejar de pagar tu pauta con lo tuyo. Y no porque alguien te regale el dinero, sino porque tu negocio va a entrar a un sistema completo.</p>
+
+      <div class="checks hero-el">
+        <div class="check-row"><span class="check-icon">✓</span><span><strong>Estrategia</strong> — primero entra un equipo de estrategia y toma el control, porque marketing sin estrategia no existe.</span></div>
+        <div class="check-row"><span class="check-icon">✓</span><span><strong>Marketing y ventas</strong> — detrás irrumpe el equipo de marketing y ventas, y monta la máquina que convierte atención en clientes.</span></div>
+        <div class="check-row"><span class="check-icon">✓</span><span><strong>Capital inteligente</strong> — y cuando todo está en posición, entra el equipo de capital y enciende la operación completa: los anuncios, el equipo, el escalamiento, con recursos que no salen de tu bolsillo.</span></div>
+      </div>
+
+      <p class="subtext hero-el">Uno toma el control. Otro ejecuta. Otro detona el crecimiento. Todos adentro, al mismo tiempo, por ti. Eso se llama incubar — y por eso los que incuban no pautan con su propio dinero.</p>
+
+      <a href="#calendario" class="nav-cta hero-el" style="display:inline-block; margin-bottom:1.25rem;">Agenda tu diagnóstico →</a>
+
+      <div class="scarcity hero-el">Equipo de hasta 14 especialistas durante 12 meses · Solo 72 founders al año · <strong>Espacios disponibles este mes: 6</strong></div>
+    </div>
+
+    <!-- COLUMNA DERECHA: CALENDARIO -->
+    <div class="calendar-col" id="calendario">
+      <div class="calendar-card">
+        <div class="calendar-head">
+          <div class="calendar-title">Agenda tu diagnóstico</div>
+          <div class="calendar-sub">Descubre cómo dejar de pautar con tu propio dinero</div>
+        </div>
+        <div class="calendar-embed">
+          <div class="calendar-overlay" id="calendarOverlay"><span>👆 Toca aquí para abrir el calendario</span></div>
+          <iframe src="https://api.leadconnectorhq.com/widget/booking/lE5guBdGXg5oZNKlKvb8" style="width: 100%;border:none;overflow: hidden;" scrolling="no" id="lE5guBdGXg5oZNKlKvb8_1784566352165"></iframe>
+        </div>
+        <div class="calendar-fine">Acceso gratuito · Sin compromiso</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER LEGAL -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="https://www.incmastery.com" target="_blank">Política de Privacidad</a>
+    <a href="https://www.incmastery.com" target="_blank">Términos y Condiciones</a>
+  </div>
+  <div class="footer-text">
+    <p>© 2025 Mastery Incubator. Todos los derechos reservados.</p><br>
+    <p>Los resultados mostrados en esta página son proyecciones basadas en el desempeño del programa y experiencias de founders dentro del ecosistema Mastery. Los resultados individuales varían según el negocio, la industria, el nivel de compromiso y otros factores. Mastery Incubator no garantiza resultados específicos.</p><br>
+    <p>Este contenido fue creado por Mastery Incubator y no está respaldado, patrocinado ni asociado con Meta Platforms, Inc. El uso de plataformas publicitarias de Meta es independiente de los servicios ofrecidos por Mastery Incubator.</p>
+  </div>
+</footer>
+
+<script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+
+<!-- ══════════════════════════════════════
+     URL → #calendario-tocado AL TOCAR EL OVERLAY
+     Blindado contra doble disparo — el overlay se desactiva
+     de inmediato y desaparece tras el primer toque, dejando
+     el calendario 100% usable con normalidad.
+══════════════════════════════════════ -->
+<script>
+(function () {
+  var overlay = document.getElementById('calendarOverlay');
+  var yaDisparado = false;
+
+  overlay.addEventListener('click', function () {
+    if (yaDisparado) return;
+    yaDisparado = true;
+
+    overlay.style.pointerEvents = 'none';
+    history.pushState(null, '', window.location.pathname + window.location.search + '#calendario-tocado');
+
+    overlay.style.opacity = '0';
+    setTimeout(function () { overlay.remove(); }, 250);
+  });
+})();
+</script>
+
+</body>
+</html>
