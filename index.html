@@ -16,9 +16,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <!-- ══════════════════════════════════════
-     META PIXEL — solo instalado, SIN eventos en código.
-     Todos los eventos (PageView, ViewContent, Subscribe, Lead)
-     se configuran manualmente en Events Manager.
+     META PIXEL — instalado CON eventos en código
+     (PageView y ViewContent al cargar la página).
+     El evento Suscribirte se dispara más abajo, al tocar
+     la capa transparente del calendario.
 ══════════════════════════════════════ -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -27,7 +28,8 @@ n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
 t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
 document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init', '1903630753673137');
-// Sin eventos disparados desde código — se configuran manualmente en Events Manager
+fbq('track', 'PageView');
+fbq('track', 'ViewContent');
 </script>
 <!-- FIN META PIXEL -->
 
@@ -340,7 +342,8 @@ main {
      URL → #calendario-tocado AL TOCAR EL OVERLAY
      Blindado contra doble disparo — el overlay se desactiva
      de inmediato y desaparece tras el primer toque, dejando
-     el calendario 100% usable con normalidad.
+     el calendario 100% usable con normalidad. Además dispara
+     el evento de Meta "Suscribirte" en ese mismo toque.
 ══════════════════════════════════════ -->
 <script>
 (function () {
@@ -353,6 +356,10 @@ main {
 
     overlay.style.pointerEvents = 'none';
     history.pushState(null, '', window.location.pathname + window.location.search + '#calendario-tocado');
+
+    if (typeof fbq === 'function') {
+      fbq('track', 'Subscribe');
+    }
 
     overlay.style.opacity = '0';
     setTimeout(function () { overlay.remove(); }, 250);
