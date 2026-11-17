@@ -286,7 +286,7 @@ footer .slg{font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;lette
       <div class="kicker">La incubadora para founders</div>
       <h1>Vas a recuperar años <br>de dinero perdido en <br><span class="grad shimmer" data-text="publicidad">publicidad</span>.</h1>
       <p class="lead" style="margin-top:28px">Y no vas a pagar más anuncios de tu bolsillo. Descubre en 30 minutos el sistema que ya usan los founders que crecen sin arriesgar lo suyo.</p>
-      <div class="cta-wrap"><a href="#" class="cta js-cta" target="_blank" rel="noopener">Agenda tu sesión <span class="ar">→</span></a></div>
+      <div class="cta-wrap"><a href="#agenda" class="cta js-cta">Agenda tu sesión <span class="ar">→</span></a></div>
     </div>
   </div>
 </section>
@@ -321,7 +321,7 @@ footer .slg{font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;lette
         </div>
       </div>
     </div>
-    <div class="rv cta-wrap"><a href="#" class="cta js-cta" target="_blank" rel="noopener">Agenda tu sesión <span class="ar">→</span></a></div>
+    <div class="rv cta-wrap"><a href="#agenda" class="cta js-cta">Agenda tu sesión <span class="ar">→</span></a></div>
   </div>
 </section>
 
@@ -348,7 +348,7 @@ footer .slg{font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;lette
       <div class="pulse"></div>
       <div class="punch">En 30 minutos sabes si tu negocio<br>califica y cómo funcionaría para ti.</div>
     </div>
-    <div class="rv cta-wrap"><a href="#" class="cta js-cta" target="_blank" rel="noopener">Agenda tu sesión <span class="ar">→</span></a></div>
+    <div class="rv cta-wrap"><a href="#agenda" class="cta js-cta">Agenda tu sesión <span class="ar">→</span></a></div>
   </div>
 </section>
 
@@ -362,8 +362,7 @@ footer .slg{font-family:'Nunito',sans-serif;font-weight:900;font-size:13px;lette
           <h2 style="font-size:clamp(26px,4.2vw,44px);margin-bottom:16px">Solo 70 espacios<br>al año.</h2>
           <p style="max-width:56ch">Por el nivel de acompañamiento profesional que hacemos dentro de cada negocio, la incubadora recibe un número limitado de founders.</p>
           <div class="cupos-num"><span class="cupos-dot"></span>Espacios disponibles este mes: 6.</div>
-          <div class="cta-wrap"><a href="#" class="cta js-cta" target="_blank" rel="noopener">Postúlate a la incubadora <span class="ar">→</span></a></div>
-          <p class="sms-note">¿Prefieres dejarnos tus datos primero? Usa el <a href="#agenda">formulario de esta página</a>.</p>
+          <div class="cta-wrap"><a href="#agenda" class="cta js-cta">Postúlate a la incubadora <span class="ar">→</span></a></div>
         </div>
       </div>
     </div>
@@ -560,36 +559,26 @@ document.addEventListener('keydown',e=>{
 </script>
 
 <!-- ══════════════════════════════════════
-     BOTONES CTA → CALENDARIO
-     Los 4 botones (.js-cta) apuntan al calendario de GHL,
-     reenviando los UTM/fbclid/gclid de la landing para que
-     GHL sepa de qué anuncio vino el lead. Al hacer clic,
-     además dispara el evento de Meta "Lead" (Cliente
-     potencial). Como abren en pestaña nueva, la landing
-     nunca se recarga y el evento siempre alcanza a enviarse.
+     BOTONES CTA → FORMULARIO
+     Los 4 botones (.js-cta) bajan al formulario de la
+     sección #agenda. Es el ÚNICO camino al calendario: el
+     formulario pide la casilla de consentimiento SMS (A2P)
+     y luego envía al calendario de GHL con datos y UTMs.
+     El evento "Lead" de Meta se dispara al enviar el
+     formulario (no al hacer clic aquí) para no duplicarlo.
 ══════════════════════════════════════ -->
 <script>
 (function () {
-  var CALENDAR_BASE = 'https://api.leadconnectorhq.com/widget/bookings/sesion-estrategica-mastery';
-  var camposATransferir = [
-    'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term',
-    'fbclid', 'gclid', 'ttclid'
-  ];
-
-  var parentParams = new URLSearchParams(window.location.search);
-  var calendarUrl = new URL(CALENDAR_BASE);
-  camposATransferir.forEach(function (campo) {
-    var valor = parentParams.get(campo);
-    if (valor) calendarUrl.searchParams.set(campo, valor);
-  });
-  var finalUrl = calendarUrl.toString();
-
   document.querySelectorAll('.js-cta').forEach(function (btn) {
-    btn.setAttribute('href', finalUrl);
-    btn.addEventListener('click', function () {
-      if (typeof fbq === 'function') {
-        fbq('track', 'Lead');
-      }
+    btn.addEventListener('click', function (e) {
+      var target = document.getElementById('agenda');
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () {
+        var first = document.querySelector('#mx-form input[name=first_name]');
+        if (first) first.focus({ preventScroll: true });
+      }, 700);
     });
   });
 })();
