@@ -1,0 +1,112 @@
+<!-- ═══════════════════════════════════════════════════════════════
+     FORMULARIO A2P · MASTERY INCUBATOR (fragmento reutilizable)
+     Pega TODO este bloque (estilo + formulario + script) en cualquier
+     landing, dentro del <body>, donde quieras que aparezca.
+
+     Configuración (en el <script> de abajo):
+       CALENDAR_URL  → calendario de GHL al que se envía después.
+       WEBHOOK_URL   → (opcional) Inbound Webhook de un workflow de GHL
+                       para guardar el contacto y su consentimiento.
+       PRIVACY_URL / TERMS_URL → URLs públicas de las políticas.
+     No cambies el texto de la casilla SMS sin actualizar también la
+     campaña A2P: debe coincidir con lo registrado.
+═══════════════════════════════════════════════════════════════ -->
+<style>
+#mx-form{--mx-ac:#7A2394;--mx-cta1:#FFA51F;--mx-cta2:#FF6347;max-width:560px;margin:0 auto;background:#fff;color:#141019;border-radius:20px;padding:30px 28px 26px;box-shadow:0 24px 60px -24px rgba(0,0,0,.45);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",system-ui,sans-serif;text-align:left}
+#mx-form *{box-sizing:border-box}
+#mx-form h3{font-size:22px;font-weight:800;letter-spacing:-.02em;line-height:1.15;margin:0 0 6px;color:#141019}
+#mx-form .mx-sub{font-size:14px;color:#57505f;margin:0 0 20px;line-height:1.5}
+#mx-form .mx-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){#mx-form{padding:24px 18px 22px}#mx-form .mx-row{grid-template-columns:1fr}}
+#mx-form label.mx-f{display:block;margin-bottom:12px;font-size:12.5px;font-weight:600;color:#3a3340}
+#mx-form input[type=text],#mx-form input[type=email],#mx-form input[type=tel]{display:block;width:100%;margin-top:5px;padding:12px 14px;font-size:15px;font-family:inherit;color:#141019;background:#f7f6f8;border:1px solid #ddd8e0;border-radius:10px;outline:none;transition:border-color .2s,box-shadow .2s}
+#mx-form input:focus{border-color:var(--mx-ac);box-shadow:0 0 0 3px rgba(122,35,148,.15);background:#fff}
+#mx-form .mx-check{display:flex;gap:11px;align-items:flex-start;margin:6px 0 14px;padding:14px;background:#f7f6f8;border:1px solid #e6e2e9;border-radius:12px;cursor:pointer}
+#mx-form .mx-check input{flex:0 0 auto;width:18px;height:18px;margin:2px 0 0;accent-color:var(--mx-ac);cursor:pointer}
+#mx-form .mx-check span{font-size:12.5px;line-height:1.55;color:#3a3340}
+#mx-form a{color:var(--mx-ac);text-decoration:underline}
+#mx-form strong{color:#141019;font-weight:700}
+#mx-form p{max-width:none}
+#mx-form button{width:100%;padding:15px 20px;border:0;border-radius:100px;font-family:inherit;font-size:15px;font-weight:700;color:#fff;cursor:pointer;background:linear-gradient(115deg,var(--mx-cta1),var(--mx-cta2));box-shadow:0 10px 26px -10px rgba(255,120,50,.6);transition:transform .2s}
+#mx-form button:hover{transform:translateY(-1px)}
+#mx-form button[disabled]{opacity:.6;cursor:wait}
+#mx-form .mx-legal{font-size:11.5px;color:#8f8896;line-height:1.5;margin:12px 0 0;text-align:center}
+#mx-form .mx-err{display:none;font-size:12.5px;color:#c0392b;margin:0 0 10px}
+</style>
+
+<form id="mx-form" novalidate>
+  <h3>Agenda tu sesión estratégica</h3>
+  <p class="mx-sub">Déjanos tus datos y elige el día y la hora en el siguiente paso.</p>
+
+  <div class="mx-row">
+    <label class="mx-f">Nombre*<input type="text" name="first_name" autocomplete="given-name" required></label>
+    <label class="mx-f">Apellido*<input type="text" name="last_name" autocomplete="family-name" required></label>
+  </div>
+  <label class="mx-f">Correo electrónico*<input type="email" name="email" autocomplete="email" required></label>
+  <label class="mx-f">Teléfono móvil*<input type="tel" name="phone" autocomplete="tel" placeholder="+1 (555) 123-4567" required></label>
+
+  <!-- Casilla SMS: opcional y desmarcada (requisito A2P) -->
+  <label class="mx-check">
+    <input type="checkbox" name="sms_consent" value="yes">
+    <span>Acepto recibir mensajes de texto de <strong>Mastery Incubator</strong> sobre mi cita (confirmación, recordatorios y reprogramaciones) al número indicado. La frecuencia de mensajes varía. Pueden aplicar tarifas de mensajes y datos. Responde STOP para cancelar o HELP para ayuda. El consentimiento no es condición de compra. <a class="mx-terms" href="terminos.html#sms" target="_blank" rel="noopener">Términos</a> · <a class="mx-privacy" href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a></span>
+  </label>
+
+  <p class="mx-err" id="mx-err">Completa tu nombre, apellido, un correo válido y tu teléfono.</p>
+  <button type="submit">Continuar para elegir horario →</button>
+  <p class="mx-legal">Tus datos se usan solo para gestionar tu sesión. No vendemos ni compartimos tu número con terceros para marketing. Ver <a class="mx-privacy" href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a>.</p>
+</form>
+
+<script>
+(function () {
+  /* ───── CONFIGURACIÓN ───── */
+  var CALENDAR_URL = 'https://api.leadconnectorhq.com/widget/bookings/sesion-estrategica-mastery';
+  var WEBHOOK_URL  = '';                 // ej: 'https://services.leadconnectorhq.com/hooks/XXXX/webhook-trigger/YYYY'
+  var PRIVACY_URL  = 'privacidad.html';  // en otras landings usa la URL completa: https://[DOMINIO]/privacidad.html
+  var TERMS_URL    = 'terminos.html#sms';// en otras landings usa la URL completa: https://[DOMINIO]/terminos.html#sms
+  /* ────────────────────────── */
+
+  var form = document.getElementById('mx-form');
+  if (!form) return;
+  form.querySelectorAll('.mx-privacy').forEach(function (a) { a.href = PRIVACY_URL; });
+  form.querySelectorAll('.mx-terms').forEach(function (a) { a.href = TERMS_URL; });
+
+  var TRACK = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','fbclid','gclid','ttclid'];
+  var qs = new URLSearchParams(window.location.search);
+  var consentText = form.querySelector('.mx-check span').innerText.trim();
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = form.elements;
+    var data = {
+      first_name: f.first_name.value.trim(),
+      last_name:  f.last_name.value.trim(),
+      email:      f.email.value.trim(),
+      phone:      f.phone.value.trim()
+    };
+    var phoneDigits = data.phone.replace(/\D/g, '');
+    var ok = data.first_name && data.last_name && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email) && phoneDigits.length >= 10;
+    document.getElementById('mx-err').style.display = ok ? 'none' : 'block';
+    if (!ok) return;
+
+    var btn = form.querySelector('button'); btn.disabled = true;
+
+    var payload = new URLSearchParams(data);
+    payload.set('sms_consent', f.sms_consent.checked ? 'yes' : 'no');
+    payload.set('sms_consent_text', f.sms_consent.checked ? consentText : '');
+    payload.set('consent_timestamp', new Date().toISOString());
+    payload.set('page_url', window.location.href);
+    TRACK.forEach(function (k) { if (qs.get(k)) payload.set(k, qs.get(k)); });
+
+    if (WEBHOOK_URL) {
+      try { fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', keepalive: true, body: payload }); } catch (err) {}
+    }
+    if (typeof fbq === 'function') fbq('track', 'Lead');
+
+    var cal = new URL(CALENDAR_URL);
+    ['first_name','last_name','email','phone'].forEach(function (k) { cal.searchParams.set(k, data[k]); });
+    TRACK.forEach(function (k) { if (qs.get(k)) cal.searchParams.set(k, qs.get(k)); });
+    setTimeout(function () { window.location.href = cal.toString(); }, 350);
+  });
+})();
+</script>
+<!-- ═══════════════ FIN FORMULARIO A2P ═══════════════ -->
